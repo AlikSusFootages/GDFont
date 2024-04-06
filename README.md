@@ -2,12 +2,12 @@
 
 ## How to use:
 ### For Exploits: (GUI, etc)
-```
+```lua
 GDFont.CreateFont(Text, Size, Parent, IsGold)
 ```
 - Example:
-```
-local GDFont = loadstring(game:HttpGet("https://raw.githubusercontent.com/AlikSusFootages/GDFont/main/srcmain.lua"))()
+```lua
+local GDFont = loadstring(game:HttpGet("https://raw.githubusercontent.com/AlikSusFootages/GDFont/main/src/main.lua"))()
 
 local GUI = Instance.new("ScreenGui", game:getService("Players").LocalPlayer.PlayerGui)
 local Frame = Instance.new("Frame", GUI)
