@@ -21,3 +21,6 @@ local Font2 = GDFont.CreateFont("Hello World!", 1.2, true, Frame)
 Font2.Position = UDim2.new(0,0,0,55)
 Font2.BackgroundTransparency = 0.5
 ```
+
+## Preview:
+> <img src="preview.png>
