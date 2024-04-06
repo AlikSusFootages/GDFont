@@ -4,6 +4,8 @@
 -- Creator: AlikSusFootages (github)
 --          .ftgs#0000      (discord)
 
+local GDFont = {}
+
 local data = {
     ["{"] = { x = 2, y = 2, width = 23, height = 53 },
     ["}"] = { x = 27, y = 2, width = 23, height = 53 },
@@ -103,30 +105,30 @@ local data = {
 }
 
 -- now function for connect
-local function CreateFont(text, textSize, isGold, parent)
+function GDFont.CreateFont(text, textSize, isGold, parent)
     text = text or ""
     size = textSize or 1
     isGold = isGold or false
-    
+
     imgId = "rbxassetid://16952698666"
-    
+
     if isGold == true then
         imgId = "rbxassetid://17036378910"
     end
-    
+
     if text == "" then
         warn("[GDFont] - Please specify the text.")
-    else:
+    else
         local frame_for_letters = Instance.new("Frame", parent)
         frame_for_letters.Size = UDim2.new(0,0,0,0)
-            
+
         local folder = Instance.new("Folder", frame_for_letters)
-            
+
         local uilistlayout = Instance.new("UIListLayout", folder)
         uilistlayout.SortOrder = "LayoutOrder"
         uilistlayout.FillDirection = "Horizontal"
         uilistlayout.VerticalAlignment = "Bottom"
-            
+
         uilistlayout:getPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
             Frame.Size = UDim2.fromOffset(uilistlayout.AbsoluteContentSize.X, 300)
             frame_for_letters.Size = UDim2.fromOffset(uilistlayout.AbsoluteContentSize.X, uilistlayout.AbsoluteContentSize.Y)
@@ -139,7 +141,7 @@ local function CreateFont(text, textSize, isGold, parent)
             if data[tostring(letter)] then
                 local widthSize = data[letter].width * size
                 local heightSize = data[letter].height * size
-            
+
                 local frame = Instance.new("Frame", folder)
                 frame.Name = tostring(text:sub(i,i))
                 frame.Size = UDim2.fromOffset(widthSize - 4*size, heightSize)
@@ -158,3 +160,5 @@ local function CreateFont(text, textSize, isGold, parent)
         return frame_for_letters
     end
 end
+
+return GDFont
