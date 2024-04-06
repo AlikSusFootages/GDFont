@@ -23,4 +23,4 @@ Font2.BackgroundTransparency = 0.5
 ```
 
 ## Preview:
-> <img src="preview.png>
+> <img src="preview.png">
