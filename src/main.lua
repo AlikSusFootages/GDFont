@@ -116,44 +116,45 @@ local function CreateFont(text, textSize, isGold, parent)
     
     if text == "" then
         warn("[GDFont] - Please specify the text.")
-    end
-    for i = 1, #text do
-        local letter = text:sub(i,i)
-        if letter == "•" then
-            letter = "149"
+    else:
+        local frame_for_letters = Instance.new("Frame", parent)
+        frame_for_letters.Size = UDim2.new(0,0,0,0)
+            
+        local folder = Instance.new("Folder", frame_for_letters)
+            
+        local uilistlayout = Instance.new("UIListLayout", folder)
+        uilistlayout.SortOrder = "LayoutOrder"
+        uilistlayout.FillDirection = "Horizontal"
+        uilistlayout.VerticalAlignment = "Bottom"
+            
+        uilistlayout:getPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+            Frame.Size = UDim2.fromOffset(uilistlayout.AbsoluteContentSize.X, 300)
+            frame_for_letters.Size = UDim2.fromOffset(uilistlayout.AbsoluteContentSize.X, uilistlayout.AbsoluteContentSize.Y)
+        end)
+        for i = 1, #text do
+            local letter = text:sub(i,i)
+            if letter == "•" then
+                letter = "149"
+            end
+            if data[tostring(letter)] then
+                local widthSize = data[letter].width * size
+                local heightSize = data[letter].height * size
+            
+                local frame = Instance.new("Frame", folder)
+                frame.Name = tostring(text:sub(i,i))
+                frame.Size = UDim2.fromOffset(widthSize - 4*size, heightSize)
+                frame.BackgroundTransparency = 1
+                local image = Instance.new("ImageLabel", frame)
+                image.ImageRectOffset = Vector2.new(data[letter].x, data[letter].y)
+                image.ImageRectSize = Vector2.new(data[letter].width, data[letter].height)
+                image.Size = UDim2.fromOffset(widthSize, heightSize)
+                image.Image = imgId
+                image.BackgroundTransparency = 1
+                image.ScaleType = "Fit"
+            else
+                warn("[GDFont] - Letter/Symbol '" .. letter .. "' doesn't in data.")
+            end
         end
-        if data[tostring(letter)] then
-            local frame_for_letters = Instance.new("Frame", parent)
-            frame_for_letters.Size = UDim2.new(0,0,0,0)
-            
-            local folder = Instance.new("Folder", frame_for_letters)
-            
-            local uilistlayout = Instance.new("UIListLayout", folder)
-            uilistlayout.SortOrder = "LayoutOrder"
-            uilistlayout.FillDirection = "Horizontal"
-            uilistlayout.VerticalAlignment = "Bottom"
-            
-            uilistlayout:getPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-                Frame.Size = UDim2.fromOffset(uilistlayout.AbsoluteContentSize.X, 300)
-                frame_for_letters.Size = UDim2.fromOffset(uilistlayout.AbsoluteContentSize.X, uilistlayout.AbsoluteContentSize.Y)
-            end)
-            
-            local widthSize = data[letter].width * size
-            local heightSize = data[letter].height * size
-            
-            local frame = Instance.new("Frame", folder)
-            frame.Name = tostring(text:sub(i,i))
-            frame.Size = UDim2.fromOffset(widthSize - 4*size, heightSize)
-            frame.BackgroundTransparency = 1
-            local image = Instance.new("ImageLabel", frame)
-            image.ImageRectOffset = Vector2.new(data[letter].x, data[letter].y)
-            image.ImageRectSize = Vector2.new(data[letter].width, data[letter].height)
-            image.Size = UDim2.fromOffset(widthSize, heightSize)
-            image.Image = imgId
-            image.BackgroundTransparency = 1
-            image.ScaleType = "Fit"
-        else
-            warn("[GDFont] - Letter/Symbol '" .. letter .. "' doesn't in data.")
-        end
+        return frame_for_letters
     end
 end
